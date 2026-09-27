@@ -6,6 +6,7 @@ import Vault from "./pages/Vault";
 import Generator from "./pages/Generator";
 import Security from "./pages/Security";
 import Settings from "./pages/Settings";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -16,7 +17,14 @@ function App() {
 
         <Route path="/register" element={<Register />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
 
         <Route path="/vault" element={<Vault />} />
 
