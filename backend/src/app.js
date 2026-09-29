@@ -1,87 +1,49 @@
-require("dotenv").config();
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import connectDB from "./config/db.js";
 
-const express = require("express");
-const cors = require("cors");
+import logger from "./middleware/logger.js";
+import errorMiddleware from "./middleware/errorMiddleware.js";
 
-const connectDB =
-  require("./config/db");
+import authRoutes from "./routes/authRoutes.js";
+import passwordRoutes from "./routes/passwordRoutes.js";
 
-const logger =
-  require("./middleware/logger");
-
-const errorMiddleware =
-  require("./middleware/errorMiddleware");
-
-const authRoutes =
-  require("./routes/authRoutes");
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-const PORT =
-  process.env.PORT || 5000;
-
-
-// ==========================
-// DATABASE
-// ==========================
-
+// Connect to MongoDB
 connectDB();
 
-
-// ==========================
-// MIDDLEWARE
-// ==========================
-
+// Middleware
 app.use(express.json());
-
 app.use(cors());
-
 app.use(logger);
 
+// Serve browser extension static files
+app.use("/extension", express.static(path.join(__dirname, "../../extension")));
 
-// ==========================
-// HOME
-// ==========================
-
+// Test route
 app.get("/", (req, res) => {
-
   res.json({
-    message:
-      "Password Manager Backend Running"
+    message: "Password Manager Backend Running",
+    extensionUrl: `http://localhost:${PORT}/extension/manifest.json`
   });
-
 });
 
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/passwords", passwordRoutes);
 
-// ==========================
-// AUTH ROUTES
-// ==========================
-
-app.use(
-  "/api/auth",
-  authRoutes
-);
-
-
-// ==========================
-// ERROR MIDDLEWARE
-// ==========================
-
+// Error middleware
 app.use(errorMiddleware);
 
-
-// ==========================
-// SERVER
-// ==========================
-
-app.listen(
-  PORT,
-  () => {
-
-    console.log(
-      `Server running on http://localhost:${PORT}`
-    );
-
-  }
-);
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

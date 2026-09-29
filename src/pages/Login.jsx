@@ -53,25 +53,17 @@ function Login() {
 
 
         // Get JWT
-        const token =
-          response.data.token;
+        const token = response.data.token;
+        const user = response.data.user;
 
+        // Store JWT and user
+        localStorage.setItem("token", token);
+        if (user) {
+          localStorage.setItem("user", JSON.stringify(user));
+        }
 
-        // Store JWT
-        localStorage.setItem(
-          "token",
-          token
-        );
-
-
-        alert(
-          "Login successful"
-        );
-
-
-        navigate(
-          "/dashboard"
-        );
+        alert("Login successful");
+        navigate("/dashboard");
 
 
       } catch (error) {

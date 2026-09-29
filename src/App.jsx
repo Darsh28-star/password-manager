@@ -12,28 +12,49 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route path="/" element={<Login />} />
-
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-
-        <Route path="/vault" element={<Vault />} />
-
-        <Route path="/generator" element={<Generator />} />
-
-        <Route path="/security" element={<Security />} />
-
-        <Route path="/settings" element={<Settings />} />
-
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/vault"
+          element={
+            <ProtectedRoute>
+              <Vault />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/generator"
+          element={
+            <ProtectedRoute>
+              <Generator />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/security"
+          element={
+            <ProtectedRoute>
+              <Security />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

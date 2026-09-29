@@ -45,8 +45,6 @@ function Register() {
     async (e) => {
 
       e.preventDefault();
-
-
       // Check passwords
       if (
         password !==
@@ -59,7 +57,6 @@ function Register() {
 
         return;
       }
-
 
       try {
 
@@ -84,7 +81,7 @@ function Register() {
         );
 
 
-        navigate("/");
+        navigate("/login");
 
       } catch (error) {
 
@@ -106,12 +103,8 @@ function Register() {
   return (
 
     <div className="login-page">
-
       <div className="login-card">
-
-
         <div className="brand">
-
           <div className="brand-icon">
             🔐
           </div>
